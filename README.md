@@ -29,8 +29,8 @@ during `main` build via [`seed/create-webhooks.sh`](./seed/create-webhooks.sh)
 
 Webhooks can trigger builds when
 
-- contract changes are pushed by consumers (to trigger a build: [example](seed/webhook-interventions-service.json))
-- when the build result is back (to communicate the status to github PR/commit status: [example](seed/webhook-interventions-ui-feedback.json))
+- contract changes are pushed by consumers (to trigger a build: [example](seed/webhook-laa-data-provider-data-service.json))
+- when the build result is back (to communicate the status to github PR/commit status: [example](seed/TODO))
 
 ### Webhook configuration
 

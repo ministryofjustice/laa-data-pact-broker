@@ -31,17 +31,35 @@ spec:
         - name: PACT_BROKER_ALLOW_PUBLIC_READ
           value: "true"
         - name: PACT_BROKER_DATABASE_USERNAME
-          value: "TODO"
+          valueFrom:
+            secretKeyRef:
+              name: postgres14
+              key: database_username
         - name: PACT_BROKER_DATABASE_PASSWORD
-          value: "TODO"
+          valueFrom:
+            secretKeyRef:
+              name: postgres14
+              key: database_password
         - name: PACT_BROKER_DATABASE_HOST
-          value: "TODO"
+          valueFrom:
+            secretKeyRef:
+              name: postgres14
+              key: rds_instance_address
         - name: PACT_BROKER_DATABASE_NAME
-          value: "TODO"
+          valueFrom:
+            secretKeyRef:
+              name: postgres14
+              key: database_name
         - name: PACT_BROKER_BASIC_AUTH_USERNAME
-          value: "TODO"
+          valueFrom:
+            secretKeyRef:
+              name: basic-auth
+              key: username
         - name: PACT_BROKER_BASIC_AUTH_PASSWORD
-          value: "TODO"
+          valueFrom:
+            secretKeyRef:
+              name: basic-auth
+              key: password
         - name: PACT_BROKER_WEBHOOK_SCHEME_WHITELIST
           value: https
         - name: PACT_BROKER_WEBHOOK_HOST_WHITELIST
