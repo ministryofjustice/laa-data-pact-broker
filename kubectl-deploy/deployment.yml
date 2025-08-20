@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: laa-data-pact-broker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: laa-data-pact-broker
+  template:
+    metadata:
+      labels:
+        app: laa-data-pact-broker
+    spec:
+      containers:
+      - image: pactfoundation/pact-broker:latest
+        imagePullPolicy: Always
+        securityContext:
+          runAsNonRoot: True
+          runAsUser: 101
+        name: app
+        readinessProbe:
+          tcpSocket:
+            port: 9292
+        ports:
+        - containerPort: 9292
+          name: http
+        env:
+        - name: PACT_BROKER_PORT
+          value: "9292"
+        - name: PACT_BROKER_ALLOW_PUBLIC_READ
+          value: "true"
+        - name: PACT_BROKER_DATABASE_USERNAME
+          value: "TODO"
+        - name: PACT_BROKER_DATABASE_PASSWORD
+          value: "TODO"
+        - name: PACT_BROKER_DATABASE_HOST
+          value: "TODO"
+        - name: PACT_BROKER_DATABASE_NAME
+          value: "TODO"
+        - name: PACT_BROKER_BASIC_AUTH_USERNAME
+          value: "TODO"
+        - name: PACT_BROKER_BASIC_AUTH_PASSWORD
+          value: "TODO"
+        - name: PACT_BROKER_WEBHOOK_SCHEME_WHITELIST
+          value: https
+        - name: PACT_BROKER_WEBHOOK_HOST_WHITELIST
+          value: "api.github.com, github.com, circleci.com"
