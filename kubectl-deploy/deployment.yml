@@ -33,33 +33,33 @@ spec:
         - name: PACT_BROKER_DATABASE_USERNAME
           valueFrom:
             secretKeyRef:
-              name: postgres14
+              name: rds-postgresql-instance-output
               key: database_username
         - name: PACT_BROKER_DATABASE_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: postgres14
+              name: rds-postgresql-instance-output
               key: database_password
         - name: PACT_BROKER_DATABASE_HOST
           valueFrom:
             secretKeyRef:
-              name: postgres14
+              name: rds-postgresql-instance-output
               key: rds_instance_address
         - name: PACT_BROKER_DATABASE_NAME
           valueFrom:
             secretKeyRef:
-              name: postgres14
+              name: rds-postgresql-instance-output
               key: database_name
-        - name: PACT_BROKER_BASIC_AUTH_USERNAME
-          valueFrom:
-            secretKeyRef:
-              name: basic-auth
-              key: username
-        - name: PACT_BROKER_BASIC_AUTH_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: basic-auth
-              key: password
+#        - name: PACT_BROKER_BASIC_AUTH_USERNAME
+#          valueFrom:
+#            secretKeyRef:
+#              name: basic-auth
+#              key: username
+#        - name: PACT_BROKER_BASIC_AUTH_PASSWORD
+#          valueFrom:
+#            secretKeyRef:
+#              name: basic-auth
+#              key: password
         - name: PACT_BROKER_WEBHOOK_SCHEME_WHITELIST
           value: https
         - name: PACT_BROKER_WEBHOOK_HOST_WHITELIST
