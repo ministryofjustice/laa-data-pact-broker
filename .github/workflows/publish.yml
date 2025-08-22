@@ -21,6 +21,8 @@ jobs:
           kubectl config set-context ${KUBE_CLUSTER} --cluster=${KUBE_CLUSTER} --user=deploy-user --namespace=${{ secrets.KUBE_NAMESPACE}}
           kubectl config get-contexts
           kubectl config use-context ${KUBE_CLUSTER}
+      - name: Make deploy.sh executable
+        run: chmod +x ./deploy.sh
       - name: Deploy
         run: ./deploy.sh
   apply_webhooks:
@@ -29,6 +31,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Make create-webhooks.sh executable
+        run: chmod +x ./create-webhooks.sh
       - name: Apply webhooks
         env:
           PACT_BROKER_PROVIDER_DATA_INTEGRATION_TOKEN: ${{ secrets.GITHUB_PROVIDER_DATA_TOKEN }}
