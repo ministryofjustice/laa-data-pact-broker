@@ -50,16 +50,16 @@ spec:
             secretKeyRef:
               name: rds-postgresql-instance-output
               key: database_name
-#        - name: PACT_BROKER_BASIC_AUTH_USERNAME
-#          valueFrom:
-#            secretKeyRef:
-#              name: basic-auth
-#              key: username
-#        - name: PACT_BROKER_BASIC_AUTH_PASSWORD
-#          valueFrom:
-#            secretKeyRef:
-#              name: basic-auth
-#              key: password
+        - name: PACT_BROKER_BASIC_AUTH_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: laa-data-pact-broker-secrets
+              key: PACT_BROKER_BASIC_AUTH_USERNAME
+        - name: PACT_BROKER_BASIC_AUTH_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: laa-data-pact-broker-secrets
+              key: PACT_BROKER_BASIC_AUTH_USERNAME
         - name: PACT_BROKER_WEBHOOK_SCHEME_WHITELIST
           value: https
         - name: PACT_BROKER_WEBHOOK_HOST_WHITELIST

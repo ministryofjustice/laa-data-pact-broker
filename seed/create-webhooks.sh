@@ -1,5 +1,8 @@
 #!/bin/bash -e
 
+PACT_BROKER_USERNAME=$(kubectl get secret laa-data-pact-broker-secrets -n "$NAMESPACE" -o jsonpath='{.data.PACT_BROKER_BASIC_AUTH_USERNAME}'  | base64 --decode)
+PACT_BROKER_PASSWORD=$(kubectl get secret laa-data-pact-broker-secrets -n "$NAMESPACE" -o jsonpath='{.data.PACT_BROKER_BASIC_AUTH_PASSWORD}'  | base64 --decode)
+
 if [ "PACT_BROKER_PROVIDER_DATA_INTEGRATION_TOKEN" = "" ] || [ "$GITHUB_ACCESS_TOKEN" = "" ] || [ "$PACT_BROKER_USERNAME" = "" ] || [ "$PACT_BROKER_PASSWORD" = "" ]; then
   echo "One or more environment variables are missing. Usage:"
   echo "PACT_BROKER_PROVIDER_DATA_INTEGRATION_TOKEN=token GITHUB_ACCESS_TOKEN=token PACT_BROKER_USERNAME=user PACT_BROKER_PASSWORD=password $0"
@@ -12,7 +15,7 @@ function upsert_webhook() {
   echo "✨ applying $file..."
   sed "s/\${PACT_BROKER_PROVIDER_DATA_INTEGRATION_TOKEN}/PACT_BROKER_PROVIDER_DATA_INTEGRATION_TOKEN/; s/\${GITHUB_ACCESS_TOKEN}/$GITHUB_ACCESS_TOKEN/" "$file" |
     curl -X PUT \
-      "https://laa-data-pact-broker.apps.live-1.cloud-platform.service.justice.gov.uk/webhooks/$webhookID" \
+      "https://laa-data-pact-broker.apps.live.cloud-platform.service.justice.gov.uk/webhooks/$webhookID" \
       --user "$PACT_BROKER_USERNAME:$PACT_BROKER_PASSWORD" \
       -H "Content-Type: application/json" \
       -d @-
@@ -24,7 +27,7 @@ function delete_webhook() {
   local webhookID="$1"
   echo "💥 deleting webhook $1..."
   curl -X DELETE \
-    "https://laa-data-pact-broker.apps.live-1.cloud-platform.service.justice.gov.uk/webhooks/$webhookID" \
+    "https://laa-data-pact-broker.apps.live.cloud-platform.service.justice.gov.uk/webhooks/$webhookID" \
     --user "$PACT_BROKER_USERNAME:$PACT_BROKER_PASSWORD"
   echo
   echo
