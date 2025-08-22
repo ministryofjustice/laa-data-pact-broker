@@ -32,7 +32,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Make create-webhooks.sh executable
-        run: chmod +x ./create-webhooks.sh
+        run: chmod +x ./seed/create-webhooks.sh
       - name: Apply webhooks
         env:
           NAMESPACE: ${{ secrets.KUBE_NAMESPACE}}
