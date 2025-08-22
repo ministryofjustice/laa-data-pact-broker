@@ -2,69 +2,56 @@
 
 [![Ministry of Justice Repository Compliance Badge](https://github-community.service.justice.gov.uk/repository-standards/api/template-repository/badge)](https://github-community.service.justice.gov.uk/repository-standards/template-repository)
 
-This template repository equips you with the default initial files required for a Ministry of Justice GitHub repository.
+# laa-data-pact-broker
 
-## Included Files
+This repository contains the deployment script for the [Pact broker](https://docs.pact.io/pact_broker)
+used by the LAA Data Stewardship team.
 
-The repository comes with the following preset files:
+It deploys the [`pactfoundation/pact-broker`](https://hub.docker.com/r/pactfoundation/pact-broker) image,
+see [`kubectl-deploy/deployment.yml`](kubectl-deploy/deployment.yml) for details.
 
-- LICENSE
-- .gitignore
-- CODEOWNERS
-- dependabot.yml
-- GitHub Actions example files
-- Ministry of Justice Compliance Badge (public repositories only)
+## Pre-requisites
 
-## Setup Instructions
+- [Access to Cloud Platform](https://user-guide.cloud-platform.service.justice.gov.uk/documentation/getting-started/kubectl-config.html#authentication)
+- Access to the [`pact-broker-prod`](https://github.com/ministryofjustice/cloud-platform-environments/tree/8eef196708c5fd07c3fe1ba1fe2f95dbcefcb567/namespaces/live-1.cloud-platform.service.justice.gov.uk/pact-broker-prod) namespace
+  (through the [`pact-broker-maintainers`](https://github.com/orgs/ministryofjustice/teams/pact-broker-maintainers) GitHub team)
 
-Once you've created your repository using this template, ensure the following steps:
+## Deploy
 
-### Update README
+Each `main` commit deploys the application via [`./deploy.sh`](./deploy.sh)
 
-Edit this README.md file to document your project accurately. Take the time to create a clear, engaging, and informative README.md file. Include information like what your project does, how to install and run it, how to contribute, and any other pertinent details.
+## Create webhooks
 
-### Update repository description
+All webhooks are in the [`seed`](./seed) directory and are all automatically deployed
+during `main` build via [`seed/create-webhooks.sh`](./seed/create-webhooks.sh)
 
-After you've created your repository, GitHub provides a brief description field that appears on the top of your repository's main page. This is a summary that gives visitors quick insight into the project. Using this field to provide a succinct overview of your repository is highly recommended.
+### When to use webhooks
 
-This description and your README.md will be one of the first things people see when they visit your repository. It's a good place to make a strong, concise first impression. Remember, this is often visible in search results on GitHub and search engines, so it's also an opportunity to help people discover your project.
+Webhooks can trigger builds when
 
-### Grant Team Permissions
+- contract changes are pushed by consumers (to trigger a build: [example](seed/webhook-laa-data-provider-data-service.json))
+- when the build result is back (to communicate the status to github PR/commit status: [example](seed/TODO))
 
-Assign permissions to the appropriate Ministry of Justice teams. Ensure at least one team is granted Admin permissions. Whenever possible, assign permissions to teams rather than individual users.
+### Webhook configuration
 
-Prefer to user GitHub Teams over individual access to repositories. Where appropriate, ensure GitHub Teams used are related to a Parent Team associated with a Business Unit to help ensure ownership can be easily identified.
+- `PACT_BROKER_CIRCLECI_INTEGRATION_TOKEN` to trigger workflows with webhooks in CircleCI, used by the CircleCI v2 API. Please generate one.
+- `GH_ACCESS_TOKEN` to set the verification result as a GitHub build status on a commit. It needs a [personal access token][pat] with `repo:status` permission and [authorised SAML][saml].
+- `PACT_BROKER_USERNAME` and `PACT_BROKER_PASSWORD` are the basic auth username/password.
 
-### Read about the GitHub repository standards
+## Secrets
 
-Familiarise yourself with the Ministry of Justice GitHub Repository Standards. These standards ensure consistency, maintainability, and best practices across all our repositories.
+| Secret | In GitHub | In CircleCI | In Kubernetes | How to refresh |
+| --- | --- | --- | --- | --- |
+| `PACT_BROKER_CIRCLECI_INTEGRATION_TOKEN` | ✅ [yes][gh-secrets] | no | no | Generate a [new CircleCI Personal API Token](https://app.circleci.com/settings/user/tokens) |
+| `GH_ACCESS_TOKEN` | ✅ [yes][gh-secrets] | no | no | [Generate][pat] a new GitHub [PAT][setting-pat] with `repo:status` permission. Please "**Configure SSO**" on the token. |
+| `PACT_BROKER_PASSWORD` | ✅ [yes][gh-secrets] | ✅ yes, [hmpps-common-vars] | ✅ yes, `secret/basic-auth` | Create a new random password, update the Kubernetes secret, the CircleCI context and the GitHub action secret. |
 
-You can find the standards [here](https://github-community.service.justice.gov.uk/repository-standards/guidance).
+`PACT_BROKER_USERNAME` is in the same place as `PACT_BROKER_PASSWORD`, but it is not a secret.
 
-Please read and understand these standards thoroughly and enable them when you feel comfortable.
 
-### Modify the GitHub Standards Badge
-
-Once you've ensured that all the [GitHub Repository Standards](https://github-community.service.justice.gov.uk/repository-standards/guidance) have been applied to your repository, it's time to update the Ministry of Justice (MoJ) Compliance Badge located in the README file.
-
-The badge demonstrates that your repository is compliant with MoJ's standards.
-
-To update the badge, replace the `template-repository` in the badge URL with your repository's name. The badge URL should look like this:
-
-```markdown
-[![Ministry of Justice Repository Compliance Badge](https://github-community.service.justice.gov.uk/repository-standards/api/${your-repository-name}/badge)](https://github-community.service.justice.gov.uk/repository-standards/${your-reposistory-name})
-```
-
-**Please note** the badge will not function correctly if your repository is internal or private. In this case, you may remove the badge from your README.
-
-### Update CODEOWNERS
-
-(Optional) Modify the CODEOWNERS file to specify the teams or users authorized to approve pull requests.
-
-### Configure Dependabot
-
-Adapt the dependabot.yml file to match your project's [dependency manager](https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file#package-ecosystem) and to enable [automated pull requests for package updates](https://docs.github.com/en/code-security/supply-chain-security).
-
-### Dependency Review
-
-If your repository is private with no GitHub Advanced Security license, remove the `.github/workflows/dependency-review.yml` file.
+[pat]: https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token
+[setting-pat]: https://github.com/settings/tokens
+[saml]: https://docs.github.com/en/github/authenticating-to-github/authenticating-with-saml-single-sign-on/authorizing-a-personal-access-token-for-use-with-saml-single-sign-on
+[gh-secrets]: https://github.com/ministryofjustice/hmpps-pact-broker/settings/secrets/actions
+[circleci-pat]: https://app.circleci.com/settings/user/tokens
+[hmpps-common-vars]: https://app.circleci.com/settings/organization/github/ministryofjustice/contexts/39e77e3c-466c-460e-9030-159bb4f7c3c7

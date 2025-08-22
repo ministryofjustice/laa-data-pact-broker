@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: laa-data-pact-broker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: laa-data-pact-broker
+  template:
+    metadata:
+      labels:
+        app: laa-data-pact-broker
+    spec:
+      containers:
+      - image: pactfoundation/pact-broker:latest
+        imagePullPolicy: Always
+        securityContext:
+          runAsNonRoot: True
+          runAsUser: 101
+        name: app
+        readinessProbe:
+          tcpSocket:
+            port: 9292
+        ports:
+        - containerPort: 9292
+          name: http
+        env:
+        - name: PACT_BROKER_PORT
+          value: "9292"
+        - name: PACT_BROKER_ALLOW_PUBLIC_READ
+          value: "true"
+        - name: PACT_BROKER_DATABASE_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: rds-postgresql-instance-output
+              key: database_username
+        - name: PACT_BROKER_DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: rds-postgresql-instance-output
+              key: database_password
+        - name: PACT_BROKER_DATABASE_HOST
+          valueFrom:
+            secretKeyRef:
+              name: rds-postgresql-instance-output
+              key: rds_instance_address
+        - name: PACT_BROKER_DATABASE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: rds-postgresql-instance-output
+              key: database_name
+#        - name: PACT_BROKER_BASIC_AUTH_USERNAME
+#          valueFrom:
+#            secretKeyRef:
+#              name: basic-auth
+#              key: username
+#        - name: PACT_BROKER_BASIC_AUTH_PASSWORD
+#          valueFrom:
+#            secretKeyRef:
+#              name: basic-auth
+#              key: password
+        - name: PACT_BROKER_WEBHOOK_SCHEME_WHITELIST
+          value: https
+        - name: PACT_BROKER_WEBHOOK_HOST_WHITELIST
+          value: "api.github.com, github.com, circleci.com"

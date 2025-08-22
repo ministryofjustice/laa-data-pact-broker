@@ -1,0 +1,26 @@
+{
+  "description": "Trigger laa-data-provider-data pact",
+  "provider": {
+    "name": "LAA Data Provider Data Service"
+  },
+  "events": [
+    {
+      "name": "contract_content_changed"
+    }
+  ],
+  "request": {
+    "method": "POST",
+    "url": "TODO",
+    "headers": {
+      "Content-Type": "application/json",
+      "Authorization": "token ${PACT_BROKER_PROVIDER_DATA_INTEGRATION_TOKEN}"
+    },
+    "body": {
+      "branch": "main",
+      "parameters": {
+        "only_pacts": true,
+        "pact_consumer_tags": "${pactbroker.consumerVersionTags}"
+      }
+    }
+  }
+}

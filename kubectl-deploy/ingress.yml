@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: laa-data-pact-broker
+  namespace: laa-data-pact-broker
+  annotations:
+    external-dns.alpha.kubernetes.io/set-identifier: "laa-data-pact-broker-laa-data-pact-broker-green"
+    external-dns.alpha.kubernetes.io/aws-weight: "100"
+spec:
+  ingressClassName: default
+  tls:
+  - hosts:
+    - laa-data-pact-broker.apps.live-1.cloud-platform.service.justice.gov.uk
+  rules:
+  - host: laa-data-pact-broker.apps.live-1.cloud-platform.service.justice.gov.uk
+    http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: laa-data-pact-broker
+            port:
+              number: 80
