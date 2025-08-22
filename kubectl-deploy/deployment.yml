@@ -59,7 +59,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name: laa-data-pact-broker-secrets
-              key: PACT_BROKER_BASIC_AUTH_USERNAME
+              key: PACT_BROKER_BASIC_AUTH_PASSWORD
         - name: PACT_BROKER_WEBHOOK_SCHEME_WHITELIST
           value: https
         - name: PACT_BROKER_WEBHOOK_HOST_WHITELIST
