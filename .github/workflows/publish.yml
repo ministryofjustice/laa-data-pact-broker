@@ -35,9 +35,8 @@ jobs:
         run: chmod +x ./create-webhooks.sh
       - name: Apply webhooks
         env:
+          NAMESPACE: ${{ secrets.KUBE_NAMESPACE}}
           PACT_BROKER_PROVIDER_DATA_INTEGRATION_TOKEN: ${{ secrets.GITHUB_PROVIDER_DATA_TOKEN }}
           GITHUB_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
-          PACT_BROKER_USERNAME: "TODO"
-          PACT_BROKER_PASSWORD: "TODO"
         run: ./create-webhooks.sh
         working-directory: ./seed
