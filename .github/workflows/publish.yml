@@ -11,6 +11,11 @@ jobs:
         uses: actions/checkout@v2
       - name: Authenticate to the cluster
         uses: ./.github/actions/authenticate-cluster
+        with:
+          kube_cluster: ${{ secrets.KUBE_CLUSTER }}
+          kube_cert: ${{ secrets.KUBE_CERT }}
+          kube_token: ${{ secrets.KUBE_TOKEN }}
+          kube_namespace: ${{ secrets.KUBE_NAMESPACE }}
       - name: Make deploy.sh executable
         run: chmod +x ./deploy.sh
       - name: Deploy
@@ -23,6 +28,11 @@ jobs:
         uses: actions/checkout@v2
       - name: Authenticate to the cluster
         uses: ./.github/actions/authenticate-cluster
+        with:
+          kube_cluster: ${{ secrets.KUBE_CLUSTER }}
+          kube_cert: ${{ secrets.KUBE_CERT }}
+          kube_token: ${{ secrets.KUBE_TOKEN }}
+          kube_namespace: ${{ secrets.KUBE_NAMESPACE }}
       - name: Make create-webhooks.sh executable
         run: chmod +x ./seed/create-webhooks.sh
       - name: Apply webhooks
