@@ -1,0 +1,14 @@
+name: Authenticate to Kubernetes Cluster
+description: Sets up kubectl with the provided cluster credentials
+
+runs:
+  using: "composite"
+  steps:
+    - name: Configure kubectl
+      run: |
+        echo "${{secrets.KUBE_CERT}}" > ca.crt
+        kubectl config set-cluster ${{secrets.KUBE_CLUSTER}} --certificate-authority=./ca.crt --server=https://${{secrets.KUBE_CLUSTER}}
+        kubectl config set-credentials deploy-user --token=${{secrets.KUBE_TOKEN}}
+        kubectl config set-context ${{secrets.KUBE_CLUSTER}} --cluster=${{secrets.KUBE_CLUSTER}} --user=deploy-user --namespace=${{ secrets.KUBE_NAMESPACE}}
+        kubectl config get-contexts
+        kubectl config use-context ${{secrets.KUBE_CLUSTER}}
