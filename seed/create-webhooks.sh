@@ -1,14 +1,7 @@
 #!/bin/bash -e
 
-echo "USERNAME SECRET: $(kubectl get secret laa-data-pact-broker-secrets -n laa-data-pact-broker -o jsonpath='{.data.PACT_BROKER_BASIC_AUTH_USERNAME}')"
-echo "PASSWORD SECRET: $(kubectl get secret laa-data-pact-broker-secrets -n laa-data-pact-broker -o jsonpath='{.data.PACT_BROKER_BASIC_AUTH_PASSWORD}')"
-
 PACT_BROKER_USERNAME=$(kubectl get secret laa-data-pact-broker-secrets -n laa-data-pact-broker -o jsonpath='{.data.PACT_BROKER_BASIC_AUTH_USERNAME}'  | base64 --decode)
 PACT_BROKER_PASSWORD=$(kubectl get secret laa-data-pact-broker-secrets -n laa-data-pact-broker -o jsonpath='{.data.PACT_BROKER_BASIC_AUTH_PASSWORD}'  | base64 --decode)
-
-echo "::add-mask::$PACT_BROKER_USERNAME"
-echo "::add-mask::$PACT_BROKER_PASSWORD"
-echo "::add-mask::$PACT_BROKER_PROVIDER_DATA_INTEGRATION_TOKEN"
 
 if [ "$PACT_BROKER_PROVIDER_DATA_INTEGRATION_TOKEN" = "" ] || [ "$GITHUB_ACCESS_TOKEN" = "" ] || [ "$PACT_BROKER_USERNAME" = "" ] || [ "$PACT_BROKER_PASSWORD" = "" ]; then
   echo "One or more environment variables are missing. Usage:"
