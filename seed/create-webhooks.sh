@@ -1,7 +1,11 @@
 #!/bin/bash -e
 
-PACT_BROKER_USERNAME=$(kubectl get secret laa-data-pact-broker-secrets -n "$NAMESPACE" -o jsonpath='{.data.PACT_BROKER_BASIC_AUTH_USERNAME}'  | base64 --decode)
-PACT_BROKER_PASSWORD=$(kubectl get secret laa-data-pact-broker-secrets -n "$NAMESPACE" -o jsonpath='{.data.PACT_BROKER_BASIC_AUTH_PASSWORD}'  | base64 --decode)
+
+echo "USERNAME SECRET: $(kubectl get secret laa-data-pact-broker-secrets -n laa-data-pact-broker -o jsonpath='{.data.PACT_BROKER_BASIC_AUTH_USERNAME}')"
+echo "PASSWORD SECRET: $(kubectl get secret laa-data-pact-broker-secrets -n laa-data-pact-broker -o jsonpath='{.data.PACT_BROKER_BASIC_AUTH_PASSWORD}')"
+
+PACT_BROKER_USERNAME=$(kubectl get secret laa-data-pact-broker-secrets -n laa-data-pact-broker -o jsonpath='{.data.PACT_BROKER_BASIC_AUTH_USERNAME}'  | base64 --decode)
+PACT_BROKER_PASSWORD=$(kubectl get secret laa-data-pact-broker-secrets -n laa-data-pact-broker -o jsonpath='{.data.PACT_BROKER_BASIC_AUTH_PASSWORD}'  | base64 --decode)
 
 echo "::add-mask::$PACT_BROKER_USERNAME"
 echo "::add-mask::$PACT_BROKER_PASSWORD"
