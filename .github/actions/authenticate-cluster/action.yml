@@ -25,4 +25,5 @@ runs:
         kubectl config set-context ${{ inputs.kube_cluster }} --cluster=${{ inputs.kube_cluster }} --user=deploy-user --namespace=${{ inputs.kube_namespace }}
         kubectl config get-contexts
         kubectl config use-context ${{ inputs.kube_cluster }}
+      shell: bash
 
