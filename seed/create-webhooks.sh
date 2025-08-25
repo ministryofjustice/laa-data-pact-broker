@@ -1,9 +1,5 @@
 #!/bin/bash -e
 
-kubectl config get-contexts
-
-kubectl config use-context live.cloud-platform.service.justice.gov.uk
-
 echo "USERNAME SECRET: $(kubectl get secret laa-data-pact-broker-secrets -n laa-data-pact-broker -o jsonpath='{.data.PACT_BROKER_BASIC_AUTH_USERNAME}')"
 echo "PASSWORD SECRET: $(kubectl get secret laa-data-pact-broker-secrets -n laa-data-pact-broker -o jsonpath='{.data.PACT_BROKER_BASIC_AUTH_PASSWORD}')"
 
