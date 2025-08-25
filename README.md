@@ -13,8 +13,8 @@ see [`kubectl-deploy/deployment.yml`](kubectl-deploy/deployment.yml) for details
 ## Pre-requisites
 
 - [Access to Cloud Platform](https://user-guide.cloud-platform.service.justice.gov.uk/documentation/getting-started/kubectl-config.html#authentication)
-- Access to the [`pact-broker-prod`](https://github.com/ministryofjustice/cloud-platform-environments/tree/8eef196708c5fd07c3fe1ba1fe2f95dbcefcb567/namespaces/live-1.cloud-platform.service.justice.gov.uk/pact-broker-prod) namespace
-  (through the [`pact-broker-maintainers`](https://github.com/orgs/ministryofjustice/teams/pact-broker-maintainers) GitHub team)
+- Access to the [`laa-data-pact-broker`](https://github.com/ministryofjustice/cloud-platform-environments/tree/main/namespaces/live.cloud-platform.service.justice.gov.uk/laa-data-pact-broker) namespace
+  (through the [`laa-data-stewardship-cse-team`](https://github.com/orgs/ministryofjustice/teams/laa-data-stewardship-cse-team) GitHub team)
 
 ## Deploy
 
@@ -29,29 +29,24 @@ during `main` build via [`seed/create-webhooks.sh`](./seed/create-webhooks.sh)
 
 Webhooks can trigger builds when
 
-- contract changes are pushed by consumers (to trigger a build: [example](seed/webhook-laa-data-provider-data-service.json))
-- when the build result is back (to communicate the status to github PR/commit status: [example](seed/TODO))
+- contract changes are pushed by consumers (to trigger a build [example](seed/TODO) to ensure provider can meet consumer's expectations)
+- when the build result is back, the results are published back to the Pact broker and then communicate the status to github PR/commit status: [example](seed/TODO))
 
 ### Webhook configuration
 
-- `PACT_BROKER_CIRCLECI_INTEGRATION_TOKEN` to trigger workflows with webhooks in CircleCI, used by the CircleCI v2 API. Please generate one.
-- `GH_ACCESS_TOKEN` to set the verification result as a GitHub build status on a commit. It needs a [personal access token][pat] with `repo:status` permission and [authorised SAML][saml].
+- `GITHUB_ACCESS_TOKEN` to set the verification result as a GitHub build status on a commit. It needs a [personal access token][pat] with `repo:status` permission and [authorised SAML][saml].
 - `PACT_BROKER_USERNAME` and `PACT_BROKER_PASSWORD` are the basic auth username/password.
 
 ## Secrets
 
-| Secret | In GitHub | In CircleCI | In Kubernetes | How to refresh |
-| --- | --- | --- | --- | --- |
-| `PACT_BROKER_CIRCLECI_INTEGRATION_TOKEN` | ✅ [yes][gh-secrets] | no | no | Generate a [new CircleCI Personal API Token](https://app.circleci.com/settings/user/tokens) |
-| `GH_ACCESS_TOKEN` | ✅ [yes][gh-secrets] | no | no | [Generate][pat] a new GitHub [PAT][setting-pat] with `repo:status` permission. Please "**Configure SSO**" on the token. |
-| `PACT_BROKER_PASSWORD` | ✅ [yes][gh-secrets] | ✅ yes, [hmpps-common-vars] | ✅ yes, `secret/basic-auth` | Create a new random password, update the Kubernetes secret, the CircleCI context and the GitHub action secret. |
+| Secret                 | In Kubernetes                                                         | How to refresh                                                                                                          |
+|------------------------|-----------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------|
+| `GITHUB_ACCESS_TOKEN`  | TODO                                                                  | [Generate][pat] a new GitHub [PAT][setting-pat] with `repo:status` permission. Please "**Configure SSO**" on the token. |
+| `PACT_BROKER_USERNAME` | ✅ yes, `laa-data-pact-broker-secrets/PACT_BROKER_BASIC_AUTH_USERNAME` | Create a new random password, update the Kubernetes secret.                                                             |
+| `PACT_BROKER_PASSWORD` | ✅ yes, `laa-data-pact-broker-secrets/PACT_BROKER_BASIC_AUTH_PASSWORD` | Create a new username, update the Kubernetes secret.                 |
 
-`PACT_BROKER_USERNAME` is in the same place as `PACT_BROKER_PASSWORD`, but it is not a secret.
 
 
 [pat]: https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token
 [setting-pat]: https://github.com/settings/tokens
 [saml]: https://docs.github.com/en/github/authenticating-to-github/authenticating-with-saml-single-sign-on/authorizing-a-personal-access-token-for-use-with-saml-single-sign-on
-[gh-secrets]: https://github.com/ministryofjustice/hmpps-pact-broker/settings/secrets/actions
-[circleci-pat]: https://app.circleci.com/settings/user/tokens
-[hmpps-common-vars]: https://app.circleci.com/settings/organization/github/ministryofjustice/contexts/39e77e3c-466c-460e-9030-159bb4f7c3c7

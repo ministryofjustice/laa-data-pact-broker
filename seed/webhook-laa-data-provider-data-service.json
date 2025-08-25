@@ -13,7 +13,7 @@
     "url": "TODO",
     "headers": {
       "Content-Type": "application/json",
-      "Authorization": "token ${PACT_BROKER_PROVIDER_DATA_INTEGRATION_TOKEN}"
+      "Authorization": "token ${GITHUB_ACCESS_TOKEN}"
     },
     "body": {
       "branch": "main",
