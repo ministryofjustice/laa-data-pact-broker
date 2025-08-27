@@ -10,7 +10,7 @@
   ],
   "request": {
     "method": "POST",
-    "url": "https://api.github.com/ministryofjustice/laa-data-provider-data/actions/workflows/pact-verification.yml/dispatches",
+    "url": "https://api.github.com/repos/ministryofjustice/laa-data-provider-data/actions/workflows/pact-verification.yml/dispatches",
     "headers": {
       "Content-Type": "application/json",
       "Authorization": "token ${GITHUB_ACCESS_TOKEN}"
