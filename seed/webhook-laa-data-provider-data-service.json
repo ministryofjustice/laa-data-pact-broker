@@ -4,11 +4,10 @@
     "name": "LAA Data Provider Data Service"
   },
   "events": [
-
-    { "name": "contract_published" },
-    { "name": "contract_content_changed"}
-
-      ],
+    {
+      "name": "contract_content_changed"
+    }
+  ],
   "request": {
     "method": "POST",
     "url": "https://api.github.com/ministryofjustice/laa-data-provider-data/actions/workflows/pact-verification.yml/dispatches",
@@ -23,9 +22,9 @@
         "pact_consumer_tags": "${pactbroker.consumerVersionTags}"
       },
       "inputs": {
-        "consumer": "${consumerName}",
-        "provider": "${providerName}",
-        "pactUrl": "${pactUrl}"
+        "consumer": "${pactbroker.consumerName}",
+        "provider": "${pactbroker.providerName}",
+        "pactUrl": "${pactbroker.pactUrl}"
       }
     }
   }
