@@ -22,9 +22,9 @@
         "pact_consumer_tags": "${pactbroker.consumerVersionTags}"
       },
       "inputs": {
-        "consumer": "${pactbroker.consumerName}",
-        "provider": "${pactbroker.providerName}",
-        "pactUrl": "${pactbroker.pactUrl}"
+        "consumer": "laa-microservice",
+        "provider": "provider-data-api",
+        "pactUrl": "https://laa-data-pact-broker.apps.live.cloud-platform.service.justice.gov.uk"
       }
     }
   }
