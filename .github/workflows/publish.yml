@@ -38,6 +38,6 @@ jobs:
       - name: Apply webhooks
         env:
           NAMESPACE: ${{ secrets.KUBE_NAMESPACE}}
-          GITHUB_ACCESS_TOKEN: "TODO"
+          GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN}}
         run: ./create-webhooks.sh
         working-directory: ./seed
