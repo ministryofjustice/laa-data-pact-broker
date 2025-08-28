@@ -17,6 +17,7 @@
       "Authorization": "Bearer ${GH_PAT_ACCESS_TOKEN}"
     },
     "body": {
+      "ref": "main",
       "inputs": {
         "consumer": "laa-microservice",
         "provider": "provider-data-api",
