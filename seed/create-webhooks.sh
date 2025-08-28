@@ -13,7 +13,12 @@ function upsert_webhook() {
   local file="$1"
   local webhookID="$2"
   echo "✨ applying $file..."
-  sed "s/\${GITHUB_ACCESS_TOKEN}/$GITHUB_ACCESS_TOKEN/" "$file" |
+  echo "First: ${GITHUB_ACCESS_TOKEN:0:1}."
+  echo "Last: ${GITHUB_ACCESS_TOKEN: -1}."
+
+  echo "First PAT: ${GH_PAT_ACCESS_TOKEN:0:1}."
+  echo "Last PAT: ${GH_PAT_ACCESS_TOKEN: -1}."
+  sed "s/\${GITHUB_ACCESS_TOKEN}/$GITHUB_ACCESS_TOKEN/; s/\${GH_PAT_ACCESS_TOKEN}/$GH_PAT_ACCESS_TOKEN/" "$file" |
     curl -X PUT \
       "https://laa-data-pact-broker.apps.live.cloud-platform.service.justice.gov.uk/webhooks/$webhookID" \
       --user "$PACT_BROKER_USERNAME:$PACT_BROKER_PASSWORD" \
@@ -36,3 +41,4 @@ function delete_webhook() {
 # these ".../webhooks/ID" IDs are randomly chosen -- they will be either "created or updated" so pick anything for new webhooks
 # for pedantics: Pact generates these via `SecureRandom.urlsafe_base64`: https://ruby-doc.org/stdlib-3.0.1/libdoc/securerandom/rdoc/Random/Formatter.html#method-i-urlsafe_base64
 upsert_webhook "webhook-laa-data-provider-data-service.json" "WG8tj0CBNP_3zP9BwJmC7g"
+upsert_webhook "webhook-laa-data-provider-data-service_temp.json" "kd9BlR3Ec5-JIBfuMCgM6g"
