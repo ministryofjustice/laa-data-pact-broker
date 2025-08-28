@@ -12,6 +12,7 @@
     "method": "POST",
     "url": "https://api.github.com/repos/ministryofjustice/laa-data-provider-data/actions/workflows/pact-verification.yml/dispatches",
     "headers": {
+      "Accept": "application/vnd.github.v3+json",
       "Content-Type": "application/json",
       "Authorization": "Bearer ${GITHUB_ACCESS_TOKEN}"
     },

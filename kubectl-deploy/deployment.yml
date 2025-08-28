@@ -64,3 +64,8 @@ spec:
           value: https
         - name: PACT_BROKER_WEBHOOK_HOST_WHITELIST
           value: "api.github.com, github.com, circleci.com"
+        - name: PACT_BROKER_LOG_LEVEL
+          value: "debug"
+        - name: PACT_BROKER_HTTP_DEBUG_LOGGING_ENABLED
+          value: "true"
+
