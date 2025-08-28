@@ -14,14 +14,9 @@
     "headers": {
       "Accept": "application/vnd.github.v3+json",
       "Content-Type": "application/json",
-      "Authorization": "Bearer ${GITHUB_ACCESS_TOKEN}"
+      "Authorization": "Bearer ${GH_PAT_ACCESS_TOKEN}"
     },
     "body": {
-      "branch": "main",
-      "parameters": {
-        "only_pacts": true,
-        "pact_consumer_tags": "${pactbroker.consumerVersionTags}"
-      },
       "inputs": {
         "consumer": "laa-microservice",
         "provider": "provider-data-api",
