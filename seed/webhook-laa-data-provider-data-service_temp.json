@@ -1,0 +1,33 @@
+{
+  "description": "Temp Trigger laa-data-provider-data pact",
+  "provider": {
+    "name": "provider-data-api"
+  },
+  "events": [
+    {
+      "name": "contract_content_changed"
+    }
+  ],
+  "request": {
+    "method": "POST",
+    "url": "https://api.github.com/repos/ministryofjustice/laa-data-provider-data/actions/workflows/pact-verification.yml/dispatches",
+    "headers": {
+      "Accept": "application/vnd.github.v3+json",
+      "Content-Type": "application/json",
+      "Authorization": "Bearer ${GH_PAT_ACCESS_TOKEN}"
+    },
+    "body": {
+      "branch": "main",
+      "parameters": {
+        "only_pacts": true,
+        "pact_consumer_tags": "${pactbroker.consumerVersionTags}"
+      },
+      "inputs": {
+        "consumer": "laa-microservice",
+        "provider": "provider-data-api",
+        "pactUrl": "https://laa-data-pact-broker.apps.live.cloud-platform.service.justice.gov.uk"
+      }
+    }
+  }
+}
+
