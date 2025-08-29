@@ -20,8 +20,7 @@
       "ref": "main",
       "inputs": {
         "consumer":    "${pactbroker.consumerName}",
-        "consumerBranch": "${pactbroker.consumerVersionBranch}",
-        "consumerVersion": "${pactbroker.consumerVersionNumber}"
+        "consumerBranch": "${pactbroker.consumerVersionBranch}"
       }
     }
   }
