@@ -34,7 +34,7 @@ Webhooks can trigger builds when
 
 ### Webhook configuration
 
-- `GITHUB_ACCESS_TOKEN` to set the verification result as a GitHub build status on a commit. It needs a [personal access token][pat] with `repo:status` permission and [authorised SAML][saml]. This is required to be in GitHub as the webhook requires access
+- `GH_PAT_ACCESS_TOKEN` to set the verification result as a GitHub build status on a commit. It needs a [personal access token][pat] with `repo:status` permission and [authorised SAML][saml]. This is required to be in GitHub as the webhook requires access
 - to an active token and not a temporary one availbable only during hte lifecylce of the workflow
 - `PACT_BROKER_USERNAME` and `PACT_BROKER_PASSWORD` are the basic auth username/password.
 
