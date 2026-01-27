@@ -20,8 +20,18 @@ jobs:
         run: chmod +x ./deploy.sh
       - name: Deploy
         run: ./deploy.sh
+
+  get_claims_api_app_token:
+   if: ${{ github.ref == 'refs/heads/main' && env.CLAIMS_GITHUB_APP_ID != '' && env.CLAIMS_GITHUB_APP_PRIVATE_KEY != '' }}
+   uses: peter-murray/workflow-application-token-action@v4
+   with:
+     application_id: ${{ secrets.claims_api_github_app_id }}
+     application_private_key: ${{ secrets.claims_api_github_app_private_key }}
+     organization: ${{ secrets.github_app_organisation }}
+
   apply_webhooks:
     if: ${{ github.ref == 'refs/heads/main' }}
+    needs: get_claims_api_app_token
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -39,5 +49,6 @@ jobs:
         env:
           NAMESPACE: ${{ secrets.KUBE_NAMESPACE}}
           GH_PAT_ACCESS_TOKEN: ${{ secrets.GH_PAT_ACCESS_TOKEN}}
+          GH_CLAIMS_PAT_ACCESS_TOKEN: ${{ steps.get_claims_api_app_token.outputs.token }}
         run: ./create-webhooks.sh
         working-directory: ./seed
