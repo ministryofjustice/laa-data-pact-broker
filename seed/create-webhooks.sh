@@ -3,9 +3,9 @@
 PACT_BROKER_USERNAME=$(kubectl get secret laa-data-pact-broker-secrets -n $NAMESPACE -o jsonpath='{.data.PACT_BROKER_BASIC_AUTH_USERNAME}'  | base64 --decode)
 PACT_BROKER_PASSWORD=$(kubectl get secret laa-data-pact-broker-secrets -n $NAMESPACE -o jsonpath='{.data.PACT_BROKER_BASIC_AUTH_PASSWORD}'  | base64 --decode)
 
-if [ "GH_PAT_ACCESS_TOKEN" = "" ] || [ "$PACT_BROKER_USERNAME" = "" ] || [ "$PACT_BROKER_PASSWORD" = "" ]; then
+if [ "GH_PAT_ACCESS_TOKEN" = "" ] || [ "GH_CLAIMS_PAT_ACCESS_TOKEN" = "" ] || [ "$PACT_BROKER_USERNAME" = "" ] || [ "$PACT_BROKER_PASSWORD" = "" ]; then
   echo "One or more environment variables are missing. Usage:"
-  echo "GH_PAT_ACCESS_TOKEN=token PACT_BROKER_USERNAME=user PACT_BROKER_PASSWORD=password $0"
+  echo "GH_PAT_ACCESS_TOKEN=token GH_CLAIMS_PAT_ACCESS_TOKEN=token PACT_BROKER_USERNAME=user PACT_BROKER_PASSWORD=password $0"
   exit 1
 fi
 
@@ -13,7 +13,9 @@ function upsert_webhook() {
   local file="$1"
   local webhookID="$2"
   echo "✨ applying $file..."
-  sed "s/\${GH_PAT_ACCESS_TOKEN}/$GH_PAT_ACCESS_TOKEN/" "$file" |
+  sed -e "s/\${GH_PAT_ACCESS_TOKEN}/$GH_PAT_ACCESS_TOKEN/g" \
+      -e "s/\${GH_CLAIMS_PAT_ACCESS_TOKEN}/$GH_CLAIMS_PAT_ACCESS_TOKEN/g" \
+      "$file" |
     curl -X PUT \
       "https://laa-data-pact-broker.apps.live.cloud-platform.service.justice.gov.uk/webhooks/$webhookID" \
       --user "$PACT_BROKER_USERNAME:$PACT_BROKER_PASSWORD" \
