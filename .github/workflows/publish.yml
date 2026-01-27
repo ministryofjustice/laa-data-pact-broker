@@ -22,7 +22,7 @@ jobs:
         run: ./deploy.sh
 
   get_claims_api_app_token:
-   if: ${{ github.ref == 'refs/heads/main' && env.CLAIMS_GITHUB_APP_ID != '' && env.CLAIMS_GITHUB_APP_PRIVATE_KEY != '' }}
+   if: ${{ github.ref == 'refs/heads/main' }}
    uses: peter-murray/workflow-application-token-action@v4
    with:
      application_id: ${{ secrets.claims_api_github_app_id }}
