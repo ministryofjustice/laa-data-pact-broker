@@ -37,7 +37,8 @@ jobs:
         run: chmod +x ./seed/create-webhooks.sh
       - name: Apply webhooks
         env:
-          NAMESPACE: ${{ secrets.KUBE_NAMESPACE}}
-          GH_PAT_ACCESS_TOKEN: ${{ secrets.GH_PAT_ACCESS_TOKEN}}
+          NAMESPACE: ${{ secrets.KUBE_NAMESPACE }}
+          GH_PAT_ACCESS_TOKEN: ${{ secrets.GH_PAT_ACCESS_TOKEN }}
+          GH_CLAIMS_PAT_ACCESS_TOKEN: ${{ secrets.GH_CLAIMS_PAT_ACCESS_TOKEN }}
         run: ./create-webhooks.sh
         working-directory: ./seed
