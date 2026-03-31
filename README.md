@@ -1,8 +1,6 @@
-# Ministry of Justice Template Repository
+# laa-data-pact-broker
 
 [![Ministry of Justice Repository Compliance Badge](https://github-community.service.justice.gov.uk/repository-standards/api/laa-data-pact-broker/badge)](https://github-community.service.justice.gov.uk/repository-standards/laa-data-pact-broker)
-
-# laa-data-pact-broker
 
 This repository contains the deployment script for the [Pact broker](https://docs.pact.io/pact_broker)
 used by the LAA Data Stewardship team.
