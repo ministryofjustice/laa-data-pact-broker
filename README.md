@@ -1,6 +1,6 @@
 # Ministry of Justice Template Repository
 
-[![Ministry of Justice Repository Compliance Badge](https://github-community.service.justice.gov.uk/repository-standards/api/template-repository/badge)](https://github-community.service.justice.gov.uk/repository-standards/template-repository)
+[![Ministry of Justice Repository Compliance Badge](https://github-community.service.justice.gov.uk/repository-standards/api/laa-data-pact-broker/badge)](https://github-community.service.justice.gov.uk/repository-standards/laa-data-pact-broker)
 
 # laa-data-pact-broker
 
