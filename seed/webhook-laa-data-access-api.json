@@ -1,0 +1,28 @@
+{
+  "description": "Trigger laa-data-access-api pact",
+  "provider": {
+    "name": "laa-data-access-api"
+  },
+  "events": [
+    {
+      "name": "contract_requiring_verification_published"
+    }
+  ],
+  "request": {
+    "method": "POST",
+    "url": "https://api.github.com/repos/ministryofjustice/laa-data-access-api/actions/workflows/pact-provider-webhook.yml/dispatches",
+    "headers": {
+      "Accept": "application/vnd.github.v3+json",
+      "Content-Type": "application/json",
+      "Authorization": "Bearer ${GH_CLAIMS_PAT_ACCESS_TOKEN}"
+    },
+    "body": {
+      "ref": "main",
+      "inputs": {
+        "consumer":    "${pactbroker.consumerName}",
+        "consumerBranch": "${pactbroker.consumerVersionBranch}"
+      }
+    }
+  }
+}
+
