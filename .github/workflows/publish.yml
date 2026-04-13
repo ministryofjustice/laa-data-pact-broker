@@ -31,9 +31,10 @@ jobs:
         uses: actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859 # v3.0.0
         with:
           skip-token-revoke: 'true'
-          app-id: ${{ secrets.github_app_id }}
-          private-key: ${{ secrets.github_app_private_key }}
+          app-id: ${{ vars.LAA_JAVA_SERVICE_DEPLOYER_APP_ID }}
+          private-key: ${{ secrets.LAA_JAVA_SERVICE_DEPLOYER_KEY }}
           owner: 'ministryofjustice'
+          permission-actions: write
       - name: Authenticate to the cluster
         uses: ./.github/actions/authenticate-cluster
         with:
@@ -46,6 +47,6 @@ jobs:
       - name: Apply webhooks
         env:
           NAMESPACE: ${{ secrets.KUBE_NAMESPACE }}
-          GH_ACCESS_TOKEN: ${{ steps.get_workflow_token.outputs.token }}
+          GH_TOKEN: ${{ steps.get_workflow_token.outputs.token }}
         run: ./create-webhooks.sh
         working-directory: ./seed
