@@ -7,9 +7,6 @@ on:
   schedule:
     # At minute 0 and 30 past every hour from 8 through 20
     - cron: 0,30 8-20 * * *
-  push:
-    branches:
-      - create-dynamic-token
 
 
 jobs:
