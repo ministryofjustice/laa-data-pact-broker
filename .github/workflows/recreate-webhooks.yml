@@ -1,31 +1,21 @@
-name: Deploy
+name: Recreate webhooks
 
-on: [push]
+# This recreates webhooks for the Pact Broker service twice an hour using a generated token. This
+# token will only be valid for 1 hour so this runs every 30 minutes.
+
+on:
+  schedule:
+    # At minute 0 and 30 past every hour from 8 through 20
+    - cron: 0,30 8-20 * * *
+
 
 jobs:
-  deploy:
-    if: ${{ github.ref == 'refs/heads/main' }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - name: Authenticate to the cluster
-        uses: ./.github/actions/authenticate-cluster
-        with:
-          kube_cluster: ${{ secrets.KUBE_CLUSTER }}
-          kube_cert: ${{ secrets.KUBE_CERT }}
-          kube_token: ${{ secrets.KUBE_TOKEN }}
-          kube_namespace: ${{ secrets.KUBE_NAMESPACE }}
-      - name: Make deploy.sh executable
-        run: chmod +x ./deploy.sh
-      - name: Deploy
-        run: ./deploy.sh
   apply_webhooks:
     if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@v6
       - name: Get app token
         id: get_workflow_token
         uses: actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859 # v3.0.0
