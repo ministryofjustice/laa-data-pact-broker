@@ -37,3 +37,4 @@ function delete_webhook() {
 # for pedantics: Pact generates these via `SecureRandom.urlsafe_base64`: https://ruby-doc.org/stdlib-3.0.1/libdoc/securerandom/rdoc/Random/Formatter.html#method-i-urlsafe_base64
 upsert_webhook "webhook-laa-data-provider-data-service.json" "WG8tj0CBNP_3zP9BwJmC7g"
 upsert_webhook "webhook-laa-data-claims-api.json" "ATJ-6dl7fUZ5OmhtMn9siQ"
+upsert_webhook "webhook-laa-data-access-api.json" "k7qsOa5ONuUHLyW3rtzQmA"
