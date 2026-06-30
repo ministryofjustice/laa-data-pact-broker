@@ -1,0 +1,27 @@
+{
+  "description": "Trigger legal-framework-api pact",
+  "provider": {
+    "name": "legal-framework-api"
+  },
+  "events": [
+    {
+      "name": "contract_requiring_verification_published"
+    }
+  ],
+  "request": {
+    "method": "POST",
+    "url": "https://api.github.com/repos/ministryofjustice/legal-framework-api/actions/workflows/pact.yml/dispatches",
+    "headers": {
+      "Accept": "application/vnd.github.v3+json",
+      "Content-Type": "application/json",
+      "Authorization": "Bearer ${GH_TOKEN}"
+    },
+    "body": {
+      "ref": "main",
+      "inputs": {
+        "consumer":    "${pactbroker.consumerName}",
+        "consumerBranch": "${pactbroker.consumerVersionBranch}"
+      }
+    }
+  }
+}
