@@ -38,3 +38,4 @@ function delete_webhook() {
 upsert_webhook "webhook-laa-data-provider-data-service.json" "WG8tj0CBNP_3zP9BwJmC7g"
 upsert_webhook "webhook-laa-data-claims-api.json" "ATJ-6dl7fUZ5OmhtMn9siQ"
 upsert_webhook "webhook-laa-data-access-api.json" "k7qsOa5ONuUHLyW3rtzQmA"
+upsert_webhook "webhook-legal-framework-api.json" "AJMyelvJCir5l-hqxbpKoQ"
