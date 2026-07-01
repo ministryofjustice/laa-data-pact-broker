@@ -5,9 +5,8 @@ name: Recreate webhooks
 
 on:
   schedule:
-    # At minute 0 and 30 past every hour from 8 through 20
-    - cron: 0,30 7-20 * * *
-
+    # At minute 7 and 37 past every hour from 6 through 21
+    - cron: "7,37 6-21 * * *"
 
 jobs:
   apply_webhooks:
