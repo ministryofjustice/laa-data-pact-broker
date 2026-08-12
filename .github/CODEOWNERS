@@ -1,1 +1,9 @@
+# Default repository owners (shared configuration and infrastructure)
 *   @ministryofjustice/laa-data-stewardship-cse-team @ministryofjustice/laa-cwa-data-api-admin-team @ministryofjustice/laa-data-pact-broker
+
+# Service ownership
+/pda-r2/                @ministryofjustice/laa-data-stewardship-cse-team
+/data-claims-api/       @ministryofjustice/laa-data-stewardship-payments-team
+/provider-data-api/     @ministryofjustice/laa-data-stewardship-cse-team
+/data-access-api/       @ministryofjustice/laa-data-stewardship-access-team
+/legal-framework-api/   @ministryofjustice/laa-apply-for-legal-aid

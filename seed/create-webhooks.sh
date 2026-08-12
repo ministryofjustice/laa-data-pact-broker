@@ -35,7 +35,11 @@ function delete_webhook() {
 
 # these ".../webhooks/ID" IDs are randomly chosen -- they will be either "created or updated" so pick anything for new webhooks
 # for pedantics: Pact generates these via `SecureRandom.urlsafe_base64`: https://ruby-doc.org/stdlib-3.0.1/libdoc/securerandom/rdoc/Random/Formatter.html#method-i-urlsafe_base64
-upsert_webhook "webhook-laa-data-provider-data-service.json" "WG8tj0CBNP_3zP9BwJmC7g"
-upsert_webhook "webhook-laa-data-claims-api.json" "ATJ-6dl7fUZ5OmhtMn9siQ"
-upsert_webhook "webhook-laa-data-access-api.json" "k7qsOa5ONuUHLyW3rtzQmA"
-upsert_webhook "webhook-legal-framework-api.json" "AJMyelvJCir5l-hqxbpKoQ"
+#
+# Webhook JSON files now live alongside each service's other Pact configuration
+# (see the top-level README for the repository layout), so paths below are
+# relative to this script's location in seed/.
+upsert_webhook "../provider-data-api/webhook-laa-data-provider-data-service.json" "WG8tj0CBNP_3zP9BwJmC7g"
+upsert_webhook "../data-claims-api/webhook-laa-data-claims-api.json" "ATJ-6dl7fUZ5OmhtMn9siQ"
+upsert_webhook "../data-access-api/webhook-laa-data-access-api.json" "k7qsOa5ONuUHLyW3rtzQmA"
+upsert_webhook "../legal-framework-api/webhook-legal-framework-api.json" "AJMyelvJCir5l-hqxbpKoQ"
