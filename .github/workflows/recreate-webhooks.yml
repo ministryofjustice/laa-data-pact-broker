@@ -4,6 +4,7 @@ name: Recreate webhooks
 # token will only be valid for 1 hour so this runs every 30 minutes.
 
 on:
+  workflow_dispatch:
   schedule:
     # At minute 7 and 37 past every hour from 6 through 21
     - cron: "7,37 6-21 * * *"
